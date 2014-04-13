@@ -1,0 +1,56 @@
+
+
+# ------------------------------------------------------------------------------
+# Remote Communication Format
+# ------------------------------------------------------------------------------
+
+BPS rate : 4800/9600/19200/38400/57600/115200 bps 
+Start/Stop bit : 1 bit, 1 bit 
+Data Length : 8 bit 
+Parity Check : None 
+Code : ASCII 
+Flow Control : None 
+Return Code : Carriage Return only 
+
+# ------------------------------------------------------------------------------
+# Discovered Commands:
+# ------------------------------------------------------------------------------
+
+('BAV', 'BAV,13')
+      - read only
+      - battery?
+('COM', 'COM,NG')
+('ESN', 'ESN,XXXXXXXXXXXXXX,000,1')
+      - read only?
+('EWP', 'EWP,ERR')
+('FWM', 'FWM,NG')
+('GLG', 'GLG,04604750,NFM,,78,,,CPD Zone 1,1,0,,151,')
+      - seems to be read-only
+
+('JNT', 'JNT,ERR')
+('JPM', 'JPM,ERR')
+('KEY', 'KEY,ERR')
+      - KEY,<key>,H/P (hold or press) 
+      - <key>
+          - H: HOLD
+          - S: SCAN
+          - R: Search
+          - L: L/O
+          - P: Power (for backlight)
+          - E: enter
+          - F: Func
+          - 0-9, .
+
+('MMM', 'MMM,NG')
+('MNU', 'MNU,ERR')
+('MRD', 'MRD,00000000,ERR')
+      - 1 parameter
+('MWR', 'MWR,NG')
+('PDI', 'PDI,NG')
+('PWR', 'PWR,239,04604750')
+('QSH', 'QSH,ERR')
+      - Quick Search
+      - 13 commas ==> 12 params
+      - first param is frequency
+('TST', 'TST,NG')
+('WIN', 'WIN,95,04604750')
