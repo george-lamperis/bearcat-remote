@@ -39,6 +39,9 @@ Return Code : Carriage Return only
           - P: Power (for backlight)
           - E: enter
           - F: Func
+          - >: scroll up
+          - <: scroll down
+          - ^: scroll click
           - 0-9, .
 
 ('MMM', 'MMM,NG')

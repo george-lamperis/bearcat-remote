@@ -1,6 +1,7 @@
 import serial
+import string
 
-class BearCat:
+class Bearcat:
     """ This class communicates with a Uniden BC125AT scanner via serial port."""
 
     def __init__(self, port):
@@ -27,7 +28,6 @@ class BearCat:
                     return ''
                 else:
                     buf = buf + chr(ord(c))
-                    # print(binascii.hexlify(c))
 
         except serial.SerialTimeoutException:
             print('device timed out!')
@@ -36,6 +36,14 @@ class BearCat:
             print('unexpected exception!')
             raise e
 
-def probe(bearcat):
-    """ probes the scanner for possible commands. """
-    pass
+def trykeys(bearcat):
+    excluded = list(string.digits)
+    excluded += ['H', 'S', 'R',  'L',  'P',  'E',  'F', '.']
+
+    for i in range(0x20, 0xE0):
+        if chr(i) not in excluded:
+            response =  bearcat.write('KEY,{},P'.format(chr(i)))
+            if response != 'KEY,ERR':
+                print(chr(i))
+                print(response + '\n')
+
