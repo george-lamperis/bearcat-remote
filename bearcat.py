@@ -26,7 +26,7 @@ class BearCat:
                 if c == b'' and buf == '':
                     return ''
                 else:
-                    buf = buf + c.decode()
+                    buf = buf + chr(ord(c))
                     # print(binascii.hexlify(c))
 
         except serial.SerialTimeoutException:
@@ -35,10 +35,6 @@ class BearCat:
         except Exception as e:
             print('unexpected exception!')
             raise e
-
-    def readbytes(self):
-        """ Similar to above, but returns a bytestring instead. """
-        pass
 
 def probe(bearcat):
     """ probes the scanner for possible commands. """
