@@ -1,9 +1,10 @@
 #ifndef BEARCAT_H
 #define BEARCAT_H
 
+#include <iostream>
+
 #include <QObject>
 #include <QSerialPort>
-
 
 // TODO we need a way to sync settings with GUI
 // some settings can be applied immediately:
@@ -14,6 +15,23 @@
 //  - search/service/scan banks
 
 // TODO signal/slot access levels
+
+
+struct Status {
+    bool hold;
+    int signal;
+
+    QString alpha;
+    QString channel;
+    QString frequency;
+    QString modulation;
+
+    QString direction;      // direction of tuner
+    QString bank;
+};
+
+QDebug operator<<(QDebug dbg, const Status &status);
+
 
 class Bearcat : public QObject
 {
@@ -37,19 +55,14 @@ public:
     void getSquelch();
     void setSquelch();
 
-    void getMode();
-    void getStatus();
-//    void setMode();
-
-    void scan();
-    void search();
-    void service();
-    void lockout();
+    void updateStatus();
 
     void setBacklight();
 
-
     void press_key();
+
+signals:
+    void modeChanged();
 
 private:
     enum class Keys { KEY_0 = '0', KEY_1 = '1', KEY_2 = '2', KEY_3 = '3',
@@ -61,8 +74,12 @@ private:
     enum class Action { HOLD = 'H', PRESS = 'P' };
     enum class Mode { SCAN, SEARCH, SERVICE, HOLD };
 
-    QSerialPort serial; // TODO pointer instead?
+    static const int REFRESH_RATE = 500;    // milliseconds
 
+    QSerialPort serial;
+    Status status;      // status consists of info on scanner screen
+    int volume;
+    int squelch;
 };
 
 #endif // BEARCAT_H
