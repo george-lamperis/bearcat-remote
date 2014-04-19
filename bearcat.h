@@ -5,6 +5,7 @@
 
 #include <QObject>
 #include <QSerialPort>
+#include <QTimer>
 
 // TODO we need a way to sync settings with GUI
 // some settings can be applied immediately:
@@ -59,10 +60,10 @@ public:
 
     void setBacklight();
 
-    void press_key();
+    void pressKey();
 
 signals:
-    void modeChanged();
+    void statusChanged();
 
 private:
     enum class Keys { KEY_0 = '0', KEY_1 = '1', KEY_2 = '2', KEY_3 = '3',
@@ -75,6 +76,8 @@ private:
     enum class Mode { SCAN, SEARCH, SERVICE, HOLD };
 
     static const int REFRESH_RATE = 500;    // milliseconds
+
+    QTimer *timer;
 
     QSerialPort serial;
     Status status;      // status consists of info on scanner screen

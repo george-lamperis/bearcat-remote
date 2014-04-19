@@ -6,6 +6,12 @@
 Bearcat::Bearcat(std::string portName)
 {
     serial.setPortName("COM4");
+
+    timer = new QTimer(this);
+    timer->setInterval(REFRESH_RATE);
+    timer->setSingleShot(false);
+
+    //    connect(timer, &QTimer::timeout, this, &MainWindow::poll_device);
 }
 
 Bearcat::~Bearcat()
@@ -25,6 +31,9 @@ void Bearcat::open()
         serial.setDataBits(QSerialPort::Data8);
         serial.setParity(QSerialPort::NoParity);
         serial.setFlowControl(QSerialPort::NoFlowControl);
+
+
+        timer->start();
     }
 }
 
@@ -78,7 +87,7 @@ void Bearcat::updateStatus()
 }
 
 
-void Bearcat::press_key()
+void Bearcat::pressKey()
 {
 }
 

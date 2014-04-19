@@ -17,15 +17,6 @@ MainWindow::MainWindow(QWidget *parent) :
     scanner = new Bearcat("COM4");
     scanner->open();
 
-
-    // TODO move timer
-    timer = new QTimer(this);
-    timer->setInterval(500);
-    timer->setSingleShot(false);
-
-//    connect(timer, &QTimer::timeout, this, &MainWindow::poll_device);
-//    timer->start();
-
     connect(ui->buttonGroup, SIGNAL(buttonClicked(QAbstractButton*)),
             this, SLOT(onButtonClicked(QAbstractButton*)) );
 }

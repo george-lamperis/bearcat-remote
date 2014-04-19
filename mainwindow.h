@@ -3,7 +3,6 @@
 
 #include <QMainWindow>
 #include <QPushButton>
-#include <QTimer>
 
 #include "bearcat.h"
 
@@ -24,7 +23,6 @@ public slots:
 
 private:
     Ui::MainWindow *ui;
-    QTimer *timer;
     Bearcat *scanner;
 
 };
