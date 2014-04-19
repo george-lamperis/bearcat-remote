@@ -19,8 +19,8 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-private slots:
-    void poll_device();
+public slots:
+    void onButtonClicked(QAbstractButton *button);
 
 private:
     Ui::MainWindow *ui;
