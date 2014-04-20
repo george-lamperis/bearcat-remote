@@ -34,6 +34,13 @@ struct Status {
 QDebug operator<<(QDebug dbg, const Status &status);
 
 
+enum class Keys { _0 = '0', _1 = '1', _2 = '2', _3 = '3', _4 = '4', _5 = '5',
+    _6 = '6', _7 = '7', _8 = '8', _9 = '9', DECIMAL = '.', HOLD = 'H',
+    SCAN = 'S', SEARCH = 'R', LOCK = 'L', POWER = 'P', ENTER = 'E',
+    FUNCTION = 'F', SCROLL_UP = '>', SCROLL_DOWN = '<', SCROLL_CLICK = '^'
+};
+
+
 class Bearcat : public QObject
 {
     Q_OBJECT
@@ -56,25 +63,19 @@ public:
     void getSquelch();
     void setSquelch();
 
-    void updateStatus();
-
     void setBacklight();
 
-    void pressKey();
+    void pressKey(Keys key);
+
+    void Bearcat::timerEvent ( QTimerEvent * event );
 
 signals:
     void statusChanged();
 
+private slots:
+    void updateStatus();
+
 private:
-    enum class Keys { KEY_0 = '0', KEY_1 = '1', KEY_2 = '2', KEY_3 = '3',
-        KEY_4 = '4', KEY_5 = '5', KEY_6 = '6', KEY_7 = '7', KEY_8 = '8',
-        KEY_9 = '9', KEY_DECIMAL = '.', KEY_HOLD = 'H', KEY_SCAN = 'S',
-        KEY_SEARCH = 'R', KEY_LOCK = 'L', KEY_POWER = 'P', KEY_FUNCTION = 'F'
-    };
-
-    enum class Action { HOLD = 'H', PRESS = 'P' };
-    enum class Mode { SCAN, SEARCH, SERVICE, HOLD };
-
     static const int REFRESH_RATE = 500;    // milliseconds
 
     QTimer *timer;

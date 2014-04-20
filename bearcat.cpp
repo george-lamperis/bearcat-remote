@@ -7,11 +7,11 @@ Bearcat::Bearcat(std::string portName)
 {
     serial.setPortName("COM4");
 
-    timer = new QTimer(this);
-    timer->setInterval(REFRESH_RATE);
-    timer->setSingleShot(false);
+//    timer = new QTimer(this);
+//    timer->setInterval(REFRESH_RATE);
+//    timer->setSingleShot(false);
 
-    //    connect(timer, &QTimer::timeout, this, &MainWindow::poll_device);
+//    connect(timer, &QTimer::timeout, this, &Bearcat::updateStatus);
 }
 
 Bearcat::~Bearcat()
@@ -33,7 +33,8 @@ void Bearcat::open()
         serial.setFlowControl(QSerialPort::NoFlowControl);
 
 
-        timer->start();
+//        timer->start();
+        startTimer(REFRESH_RATE);
     }
 }
 
@@ -52,6 +53,12 @@ void Bearcat::close()
     }
 }
 
+
+void Bearcat::timerEvent ( QTimerEvent * event )
+{
+    qDebug() << "timerEvent()";
+    updateStatus();
+}
 
 void Bearcat::updateStatus()
 {
@@ -82,13 +89,20 @@ void Bearcat::updateStatus()
     status.frequency = tokens.at(6).mid(7, 8);
 
 
-    qDebug() << status;
-    qDebug() << tokens;
+//    qDebug() << status;
+    qDebug() << "updateStatus() " << tokens;
 }
 
 
-void Bearcat::pressKey()
+void Bearcat::pressKey(Keys key)
 {
+    QByteArray cmd = "KEY,,P\r";
+    cmd.insert(4, (char) key);
+
+    qDebug() << "pressKey() " << cmd;
+    serial.write(cmd);
+
+    qDebug() << "pressKey() " << serial.readLine();
 }
 
 

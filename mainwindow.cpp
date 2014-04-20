@@ -29,8 +29,15 @@ MainWindow::~MainWindow()
 }
 
 
+// waitForBytesWritten()
+// waitForReadyRead()
+// readyRead()
 
 void MainWindow::onButtonClicked(QAbstractButton *button)
 {
-    qDebug() << button->objectName();
+//    qDebug() << button->objectName();
+
+    if (button == ui->buttonScan) {
+        scanner->pressKey(Keys::SCAN);
+    }
 }
