@@ -84,6 +84,8 @@ private:
     Status status;      // status consists of info on scanner screen
     int volume;
     int squelch;
+
+    QString getResponse(QString cmd);
 };
 
 #endif // BEARCAT_H
