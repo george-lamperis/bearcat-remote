@@ -8,12 +8,6 @@
 Bearcat::Bearcat(std::string portName)
 {
     serial.setPortName("COM4");
-
-//    timer = new QTimer(this);
-//    timer->setInterval(REFRESH_RATE);
-//    timer->setSingleShot(false);
-
-//    connect(timer, &QTimer::timeout, this, &Bearcat::updateStatus);
 }
 
 Bearcat::~Bearcat()
@@ -32,10 +26,9 @@ void Bearcat::open()
         serial.setStopBits(QSerialPort::OneStop);
         serial.setDataBits(QSerialPort::Data8);
         serial.setParity(QSerialPort::NoParity);
-//        serial.setFlowControl(QSerialPort::NoFlowControl);
-
+        serial.setFlowControl(QSerialPort::NoFlowControl);
         serial.setTextModeEnabled(false);   // to interpret \r
-//        timer->start();
+
         startTimer(REFRESH_RATE);
     }
 }
@@ -91,13 +84,9 @@ void Bearcat::updateStatus()
 {
 //    Status status;
 
-    // The problem is that readLine() returns before the entire
-    // response has been written.
     QString response = getResponse("STS\r");
     qDebug() << "updateStatus() " << response;
 
-    qDebug() << "updateStatus() " << QString().setNum(response[0].toLatin1(), 16);
-    qDebug() << "updateStatus() " << QString().setNum(response[1].toLatin1(), 16);
 
 //    qDebug() << serial.readLine();
 //    QList<QByteArray> tokens = response.split(',');
@@ -130,11 +119,6 @@ void Bearcat::updateStatus()
 
 void Bearcat::pressKey(Keys key)
 {
-    // TODO
-    // make sure there is nothing left to read before writing
-    // make sure theres nothing left after reading response
-
-
     QByteArray cmd = "KEY,,P\r";
     cmd.insert(4, (char) key);
     QString response = getResponse(cmd);
@@ -146,12 +130,6 @@ void Bearcat::pressKey(Keys key)
 
 void Bearcat::getVolume()
 {
-    serial.write("VOL\r");
-    QByteArray buffer = serial.readLine();
-    qDebug() << buffer;
-
-//    return 0;
-
 }
 
 QDebug operator<<(QDebug dbg, const Status &status)
