@@ -10,10 +10,12 @@ Bearcat::Bearcat(std::string portName)
     serial.setPortName("COM4");
 }
 
+
 Bearcat::~Bearcat()
 {
     close();
 }
+
 
 void Bearcat::open()
 {
@@ -29,7 +31,7 @@ void Bearcat::open()
         serial.setFlowControl(QSerialPort::NoFlowControl);
         serial.setTextModeEnabled(false);   // to interpret \r
 
-        startTimer(REFRESH_RATE);
+//        startTimer(REFRESH_RATE);
     }
 }
 
@@ -51,7 +53,7 @@ void Bearcat::close()
 
 void Bearcat::timerEvent ( QTimerEvent * event )
 {
-    qDebug() << "timerEvent()";
+//    qDebug() << "timerEvent()";
     updateStatus();
 }
 
@@ -76,6 +78,10 @@ QString Bearcat::getResponse(QString cmd)
         }
     }
 
+    qDebug() << cmd;
+    qDebug() << response;
+    assert( response.endsWith("\r") );
+
     return response;
 }
 
@@ -85,8 +91,6 @@ void Bearcat::updateStatus()
 //    Status status;
 
     QString response = getResponse("STS\r");
-    qDebug() << "updateStatus() " << response;
-
 
 //    qDebug() << serial.readLine();
 //    QList<QByteArray> tokens = response.split(',');
@@ -123,14 +127,13 @@ void Bearcat::pressKey(Keys key)
     cmd.insert(4, (char) key);
     QString response = getResponse(cmd);
 
-    qDebug() << "pressKey(): " << response;
-//    qDebug() << response.endsWith("\r");
 }
 
 
 void Bearcat::getVolume()
 {
 }
+
 
 QDebug operator<<(QDebug dbg, const Status &status)
 {
