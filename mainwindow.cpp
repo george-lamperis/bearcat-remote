@@ -35,7 +35,13 @@ void MainWindow::onButtonClicked(QAbstractButton *button)
 
     qDebug() << button->objectName();
 
-    if (button == ui->buttonHold) {
+    if (button == ui->buttonScrollNext) {
+        scanner->pressKey(Keys::SCROLL_UP);
+    } else if (button == ui->buttonScrollPrev) {
+        scanner->pressKey(Keys::SCROLL_DOWN);
+    } else if (button == ui->buttonScrollClick) {
+        scanner->pressKey(Keys::SCROLL_CLICK);
+    } else if (button == ui->buttonHold) {
         scanner->pressKey(Keys::HOLD);
     } else if (button == ui->buttonScan) {
         scanner->pressKey(Keys::SCAN);
